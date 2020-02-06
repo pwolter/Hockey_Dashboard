@@ -1,8 +1,30 @@
 import pandas as pd
 import plotly.graph_objs as go
 
-# Use this file to read in your data and prepare the plotly visualizations. The path to the data files are in
-# `data/file_name.csv`
+# Set the number of decimals (precision) for the dataframe floats
+pd.set_option("display.precision", 2)
+
+# read the data into Pandas
+PATH = '../../DashboardData/'
+
+top_skaters = pd.read_csv(f'{PATH}skaters.csv')
+top_goalies = pd.read_csv(f'{PATH}goalies.csv')
+
+player_x = top_skaters.sort_values('Goals Per Game', ascending=False)\
+            .head(10)['Player Name'].values.tolist()
+player_y = top_skaters.sort_values('Goals Per Game', ascending=False)\
+            .head(10)['Goals Per Game'].values.tolist()
+
+goalie_x = top_goalies.sort_values('Avg Save Percentage', ascending=False)\
+            .head(10)['Player Name'].values.tolist()
+goalie_y = top_goalies.sort_values('Avg Save Percentage', ascending=False)\
+            .head(10)['Avg Save Percentage'].values.tolist()
+
+team_skaters = top_skaters.sort_values('Goals Per Game', ascending=False)\
+            .head(10)['Team Name'].values.tolist()
+
+team_goalies = top_goalies.sort_values('Avg Save Percentage', ascending=False)\
+            .head(10)['Team Name'].values.tolist()
 
 def return_figures():
     """Creates four plotly visualizations
@@ -15,36 +37,37 @@ def return_figures():
 
     """
 
-    # first chart plots arable land from 1990 to 2015 in top 10 economies 
+    # first chart plots arable land from 1990 to 2015 in top 10 economies
     # as a line chart
-    
-    graph_one = []    
+    graph_one = []
+
     graph_one.append(
-      go.Scatter(
-      x = [0, 1, 2, 3, 4, 5],
-      y = [0, 2, 4, 6, 8, 10],
-      mode = 'lines'
+      go.Bar(
+      x = player_x,
+      y = player_y,
+      hovertext = team_skaters
       )
     )
 
-    layout_one = dict(title = 'Chart One',
-                xaxis = dict(title = 'x-axis label'),
-                yaxis = dict(title = 'y-axis label'),
+    layout_one = dict(title = 'Top 10 Players by Goals per Game (GPG)',
+                xaxis = dict(title = 'Player Name'),
+                yaxis = dict(title = 'Goals per Game'),
                 )
 
-# second chart plots ararble land for 2015 as a bar chart    
+    # second chart plots ararble land for 2015 as a bar chart
     graph_two = []
 
     graph_two.append(
       go.Bar(
-      x = ['a', 'b', 'c', 'd', 'e'],
-      y = [12, 9, 7, 5, 1],
+      x = goalie_x,
+      y = goalie_y,
+      hovertext = team_goalies
       )
     )
 
-    layout_two = dict(title = 'Chart Two',
-                xaxis = dict(title = 'x-axis label',),
-                yaxis = dict(title = 'y-axis label'),
+    layout_two = dict(title = 'Top 10 Goalies vy Avg Save Percentage',
+                xaxis = dict(title = 'Player Name',),
+                yaxis = dict(title = 'Avg Save Percentage'),
                 )
 
 
@@ -62,10 +85,10 @@ def return_figures():
                 xaxis = dict(title = 'x-axis label'),
                 yaxis = dict(title = 'y-axis label')
                        )
-    
+
 # fourth chart shows rural population vs arable land
     graph_four = []
-    
+
     graph_four.append(
       go.Scatter(
       x = [20, 40, 60, 80],
@@ -78,7 +101,7 @@ def return_figures():
                 xaxis = dict(title = 'x-axis label'),
                 yaxis = dict(title = 'y-axis label'),
                 )
-    
+
     # append all charts to the figures list
     figures = []
     figures.append(dict(data=graph_one, layout=layout_one))
