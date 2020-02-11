@@ -8,9 +8,18 @@ The main motivation of this project is to build a Flask application with a dashb
 
 # File descriptions
 
-I have used the following files:
+This area is still work in progress and wil update it as I go. For now I have:
 
-etc.
+```sh
+Hockey_Dashboard/
+├── myapp
+│   ├── __pycache__
+│   ├── static
+│   │   └── img
+│   └── templates
+└── wrangling_scripts
+    └── __pycache__
+```
 
 # Credits
 
